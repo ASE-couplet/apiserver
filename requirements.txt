@@ -1,0 +1,4 @@
+certifi==2018.11.29
+-e git+https://github.com/django/django.git@8d3147e130c4e5638fceb1e6125c040362ce12e8#egg=Django
+pytz==2018.7
+sqlparse==0.2.4

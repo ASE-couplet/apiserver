@@ -1,7 +1,7 @@
 from .base import *
 
 DEBUG = False
-ALLOWED_HOSTS = ['poemscape.mirrors.asia', '127.0.0.1']
+ALLOWED_HOSTS = ['poemscape.mirrors.asia']
 MEDIA_ROOT = '/var/opt/poemscape/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/var/opt/poemscape/static'

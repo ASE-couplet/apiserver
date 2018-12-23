@@ -3,6 +3,7 @@ from ..local_settings import *
 
 ROOT_URLCONF = 'server.urls'
 WSGI_APPLICATION = 'server.wsgi.application'
+STATIC_URL = '/static/'
 INSTALLED_APPS = [
     'server.api.apps.ApiConfig',
     'django.contrib.admin',

@@ -4,21 +4,26 @@ import json
 
 def result(request):
     if not request.GET:
-        return HttpResponse("can't get an order")
+        response = json.dumps({'error:' "can't get an order"})
+        return HttpResponse(content = response, content_type = "application/json", status = 404)
     id = request.GET['order']
     o = Order.objects.get(id=id)
     if not o.poem:
-        return HttpResponse("not finished")
+        response = json.dumps({'id': o.id, 'poem': None })
+        return HttpResponse(content = response, content_type = "application/json", status = 200)
     else:
-        response = json.dumps({'tags':o.tags, 'poem':o.poem})
-        return HttpResponse(response)
+        response = json.dumps({'id':o.id, 'poem':o.poem})
+        return HttpResponse(content = response, content_type = "application/json", status = 200)
+
 
 
 def upload(request):
     if not request.FILES:
-        return HttpResponse("no image uploaded")
+        response = json.dumps({'error':"no image uploaded"})
+        return HttpResponse(content = response, content_type = "application/json", status = 411)
     image = request.FILES['image']
     o = Order(image=image)
     o.save()
-    id = o.id
-    return HttpResponse(id)
+    response = json.dumps({'id':o.id})
+    #return HttpResponse(id)
+    return HttpResponse(content = response, content_type = "application/json", status = 200)

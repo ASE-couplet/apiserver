@@ -20,7 +20,7 @@ def result(request):
 def upload(request):
     if not request.FILES:
         response = json.dumps({'error':"no image uploaded"})
-        return HttpResponse(content = response, content_type = "application/json", status = 411)
+        return HttpResponse(content = response, content_type = "application/json", status = 415)
     image = request.FILES['image']
     o = Order(image=image)
     o.save()

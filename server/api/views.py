@@ -1,8 +1,9 @@
+from django.http import HttpResponsePermanentRedirect
 from django.utils.datastructures import MultiValueDictKeyError
 
-from utils.exceptions import *
+from utils.exceptions import BadRequest
 from utils.views import ApiView
-from .models import Order
+from .services import OrderService
 
 
 class Upload(ApiView):
@@ -11,8 +12,8 @@ class Upload(ApiView):
             image = request.FILES['image']
         except MultiValueDictKeyError:
             raise BadRequest
-        order = Order.objects.create(image=image)
-        return {'id': order.id}
+        order = OrderService.create(image)
+        return order.json()
 
 
 class Result(ApiView):
@@ -21,8 +22,15 @@ class Result(ApiView):
             id = request.GET['order']
         except MultiValueDictKeyError:
             raise BadRequest
+        order = OrderService.get(id)
+        return order.json()
+
+
+class Image(ApiView):
+    def get(self, request):
         try:
-            order = Order.objects.get(id=id)
-        except Order.DoesNotExist:
-            raise NotFound
-        return {'id': order.id, 'poem': order.poem}
+            id = request.GET['order']
+        except MultiValueDictKeyError:
+            raise BadRequest
+        order = OrderService.get(id)
+        return HttpResponsePermanentRedirect(order.image_url)

@@ -11,7 +11,7 @@ from .exceptions import ApiBaseException
 class CsrfExemptMixin:
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
-        return super.dispatch(*args, **kwargs)
+        return super().dispatch(*args, **kwargs)
 
 
 class ApiView(View):

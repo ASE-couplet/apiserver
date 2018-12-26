@@ -1,4 +1,3 @@
-import os
 from ..local_settings import *
 
 ROOT_URLCONF = 'server.urls'
@@ -22,7 +21,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-STATIC_URL = '/static/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

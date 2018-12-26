@@ -1,30 +1,28 @@
-import json
+from django.utils.datastructures import MultiValueDictKeyError
 
-from django.http import HttpResponse
-
+from utils.exceptions import *
+from utils.views import ApiView
 from .models import Order
 
 
-def result(request):
-    if not request.GET:
-        response = json.dumps({'error': "can't get an order"})
-        return HttpResponse(content=response, content_type='application/json', status=404)
-    id = request.GET['order']
-    o = Order.objects.get(id=id)
-    if not o.poem:
-        response = json.dumps({'id': o.id, 'poem': None})
-        return HttpResponse(content=response, content_type='application/json', status=200)
-    else:
-        response = json.dumps({'id': o.id, 'poem': o.poem})
-        return HttpResponse(content=response, content_type='application/json', status=200)
+class Upload(ApiView):
+    def post(self, request):
+        try:
+            image = request.FILES['image']
+        except MultiValueDictKeyError:
+            raise BadRequest
+        order = Order.objects.create(image=image)
+        return {'id': order.id}
 
 
-def upload(request):
-    if not request.FILES:
-        response = json.dumps({'error': 'no image uploaded'})
-        return HttpResponse(content=response, content_type='application/json', status=415)
-    image = request.FILES['image']
-    o = Order(image=image)
-    o.save()
-    response = json.dumps({'id': o.id})
-    return HttpResponse(content=response, content_type='application/json', status=200)
+class Result(ApiView):
+    def get(self, request):
+        try:
+            id = request.GET['order']
+        except MultiValueDictKeyError:
+            raise BadRequest
+        try:
+            order = Order.objects.get(id=id)
+        except Order.DoesNotExist:
+            raise NotFound
+        return {'id': order.id, 'poem': order.poem}

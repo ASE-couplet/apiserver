@@ -2,11 +2,11 @@ from django.http import HttpResponsePermanentRedirect
 from django.utils.datastructures import MultiValueDictKeyError
 
 from utils.exceptions import BadRequest
-from utils.views import ApiView
+from utils.views import ApiView, CsrfExemptMixin
 from .services import OrderService
 
 
-class Upload(ApiView):
+class Upload(CsrfExemptMixin, ApiView):
     def post(self, request):
         try:
             image = request.FILES['image']

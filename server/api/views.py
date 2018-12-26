@@ -1,29 +1,36 @@
-from django.http import HttpResponse
-from .models import Order
-import json
+from django.http import HttpResponsePermanentRedirect
+from django.utils.datastructures import MultiValueDictKeyError
 
-def result(request):
-    if not request.GET:
-        response = json.dumps({'error:' "can't get an order"})
-        return HttpResponse(content = response, content_type = "application/json", status = 404)
-    id = request.GET['order']
-    o = Order.objects.get(id=id)
-    if not o.poem:
-        response = json.dumps({'id': o.id, 'poem': None })
-        return HttpResponse(content = response, content_type = "application/json", status = 200)
-    else:
-        response = json.dumps({'id':o.id, 'poem':o.poem})
-        return HttpResponse(content = response, content_type = "application/json", status = 200)
+from utils.exceptions import BadRequest
+from utils.views import ApiView
+from .services import OrderService
 
 
+class Upload(ApiView):
+    def post(self, request):
+        try:
+            image = request.FILES['image']
+        except MultiValueDictKeyError:
+            raise BadRequest
+        order = OrderService.create(image)
+        return order.json()
 
-def upload(request):
-    if not request.FILES:
-        response = json.dumps({'error':"no image uploaded"})
-        return HttpResponse(content = response, content_type = "application/json", status = 415)
-    image = request.FILES['image']
-    o = Order(image=image)
-    o.save()
-    response = json.dumps({'id':o.id})
-    #return HttpResponse(id)
-    return HttpResponse(content = response, content_type = "application/json", status = 200)
+
+class Result(ApiView):
+    def get(self, request):
+        try:
+            id = request.GET['order']
+        except MultiValueDictKeyError:
+            raise BadRequest
+        order = OrderService.get(id)
+        return order.json()
+
+
+class Image(ApiView):
+    def get(self, request):
+        try:
+            id = request.GET['order']
+        except MultiValueDictKeyError:
+            raise BadRequest
+        order = OrderService.get(id)
+        return HttpResponsePermanentRedirect(order.image_url)

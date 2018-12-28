@@ -39,4 +39,4 @@ class OrderService:
 
     @property
     def card_url(self):
-        pass
+        return self._order.card.url

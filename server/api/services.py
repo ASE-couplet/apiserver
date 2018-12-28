@@ -36,3 +36,7 @@ class OrderService:
     @property
     def image_url(self):
         return self._order.image.url
+
+    @property
+    def card_url(self):
+        pass

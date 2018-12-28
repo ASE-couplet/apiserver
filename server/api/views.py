@@ -46,3 +46,4 @@ class Card(ApiView):
         if not order.poem:
             raise NotFound
         return HttpResponsePermanentRedirect(order.card_url)
+        

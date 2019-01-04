@@ -3,7 +3,7 @@ from django.db import models
 
 class Order(models.Model):
     image = models.FileField(upload_to='')
-    type = models.TextField(choices=(('portrait', 'portrait'), ('landscape', 'landscape')))
+    type = models.TextField(choices=(('portrait', 'portrait'), ('landscape', 'landscape')), default='landscape')
     tags = models.TextField(null=True)
     couplet_viewed = models.IntegerField(default=0)
     poem_viewed = models.IntegerField(default=0)

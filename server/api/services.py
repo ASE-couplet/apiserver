@@ -29,7 +29,7 @@ class OrderService:
     def json(self):
         return {
             'id': self._order.id,
-            'poem': self._order.poem_set.all().get(index__exact=1)
+            'poem': self._order.poem_set.all().get(index__exact=1).card.url
         }
 
     @property

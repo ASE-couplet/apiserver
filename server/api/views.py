@@ -12,7 +12,11 @@ class Upload(CsrfExemptMixin, ApiView):
             image = request.FILES['image']
         except MultiValueDictKeyError:
             raise BadRequest
-        order = OrderService.create(image)
+        try:
+            type = request.POST.get('type')
+        except MultiValueDictKeyError:
+            type = 'landscape'
+        order = OrderService.create(image, type)
         return order.json()
 
 
@@ -43,7 +47,45 @@ class Card(ApiView):
         except MultiValueDictKeyError:
             raise BadRequest
         order = OrderService.get(id)
-        if not order.poem:
+        maxIdx = order.poem_maxIdx
+        if maxIdx < 1:
             raise NotFound
-        return HttpResponsePermanentRedirect(order.card_url)
+        else:
+            return HttpResponsePermanentRedirect(order.poem_url(1))
+
+
+class Couplet(ApiView):
+    def get(self, request):
+        try:
+            id = request.GET['order']
+        except MultiValueDictKeyError:
+            raise BadRequest
+        try:
+            idx = request.GET['index']
+        except MultiValueDictKeyError:
+            idx = 1
+        order = OrderService.get(id)
+        maxIdx = order.couplet_maxIdx
+        if maxIdx < idx:
+            raise NotFound
+        else:
+            return HttpResponsePermanentRedirect(order.couplet_url(idx))
+            
+            
+class Poem(ApiView):
+    def get(self, request):
+        try:
+            id = request.GET['order']
+        except MultiValueDictKeyError:
+            raise BadRequest
+        try:
+            idx = request.GET['index']
+        except MultiValueDictKeyError:
+            idx = 1
+        order = OrderService.get(id)
+        maxIdx = order.poem_maxIdx
+        if maxIdx <idx:
+            raise NotFound
+        else:
+            return HttpResponsePermanentRedirect(order.poem_url(idx))
         

@@ -46,4 +46,16 @@ class Card(ApiView):
         if not order.poem:
             raise NotFound
         return HttpResponsePermanentRedirect(order.card_url)
+
+
+class Couplet_card(ApiView):
+    def get(self, request):
+        try:
+            id = request.GET['order']
+        except MultiValueDictKeyError:
+            raise BadRequest
+        order = OrderService.get(id)
+        if not order.couplet:
+            raise NotFound
+        return HttpResponsePermanentRedirect(order.couplet_card_url)
         

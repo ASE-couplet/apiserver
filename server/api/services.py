@@ -40,3 +40,7 @@ class OrderService:
     @property
     def card_url(self):
         return self._order.card.url
+    
+    @property
+    def couplet_card_url(self):
+        return self._order.couplet_card.url

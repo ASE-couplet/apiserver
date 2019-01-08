@@ -6,4 +6,5 @@ urlpatterns = [
     path('result', Result.as_view(), name='result'),
     path('image', Image.as_view(), name='image'),
     path('card', Card.as_view(), name='card'),
+    path('couplet_card', Couplet_card.as_view(), name='couplet_card'),
 ]

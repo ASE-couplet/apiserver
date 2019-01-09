@@ -31,7 +31,10 @@ class OrderService:
 
     @property
     def poem(self):
-        return self._order.poem
+        if self._order.card and self._order.couplet_card:
+            return self._order.poem
+        else:
+            return None
 
     @property
     def image_url(self):

@@ -55,7 +55,7 @@ class Couplet_card(ApiView):
         except MultiValueDictKeyError:
             raise BadRequest
         order = OrderService.get(id)
-        if not order.couplet:
+        if not order.poem:
             raise NotFound
         return HttpResponsePermanentRedirect(order.couplet_card_url)
         

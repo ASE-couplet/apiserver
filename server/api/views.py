@@ -15,6 +15,14 @@ class Evaluate(ApiView):
         except:
             pass
 
+def FaceTypeUpload(CsrfExemptMixin, ApiView):
+    def post(self, request):
+        try:
+            image = request.FILES['image']
+        except MultiValueDictKeyError:
+            raise BadRequest
+        order = OrderService.create_face_type(image)
+        return order.json()
 
 class Upload(CsrfExemptMixin, ApiView):
     def post(self, request):
@@ -22,7 +30,7 @@ class Upload(CsrfExemptMixin, ApiView):
             image = request.FILES['image']
         except MultiValueDictKeyError:
             raise BadRequest
-        order = OrderService.create_face_type(image)
+        order = OrderService.create(image)
         return order.json()
 
 

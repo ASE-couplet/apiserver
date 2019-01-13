@@ -8,9 +8,12 @@ class OrderService:
 
     @classmethod
     def create(cls, image):
-        f = open('debug.txt','a')
-        f.write('{}\n'.format(str(image)))
         order = Order.objects.create(image=image)
+        return cls(order)
+
+    @classmethod
+    def create_face_type(cls, image):
+        order = Order.objects.create(image=image, tags='人，人，人，人')
         return cls(order)
 
     @classmethod

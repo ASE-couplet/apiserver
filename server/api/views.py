@@ -22,7 +22,7 @@ class Upload(CsrfExemptMixin, ApiView):
             image = request.FILES['image']
         except MultiValueDictKeyError:
             raise BadRequest
-        order = OrderService.create(image)
+        order = OrderService.create_face_type(image)
         return order.json()
 
 

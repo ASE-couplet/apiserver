@@ -8,5 +8,5 @@ urlpatterns = [
     path('card', Card.as_view(), name='card'),
     path('couplet_card', Couplet_card.as_view(), name='couplet_card'),
     path('evaluate', Evaluate.as_view(), name="evaluate"),
-    path('upload_face_type', )
+    path('upload_face_type', FaceTypeUpload.as_view(), name="upload_face_type")
 ]

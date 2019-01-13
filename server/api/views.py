@@ -15,7 +15,7 @@ class Evaluate(ApiView):
         except:
             pass
 
-def FaceTypeUpload(CsrfExemptMixin, ApiView):
+class FaceTypeUpload(CsrfExemptMixin, ApiView):
     def post(self, request):
         try:
             image = request.FILES['image']

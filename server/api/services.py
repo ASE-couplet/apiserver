@@ -13,7 +13,7 @@ class OrderService:
 
     @classmethod
     def create_face_type(cls, image):
-        order = Order.objects.create(image=image, tags='face')
+        order = Order.objects.create(image=image, tags='人脸')
         return cls(order)
 
     @classmethod

@@ -12,7 +12,6 @@ class Evaluate(ApiView):
             score = request.GET['evaluate']
             f = open('./evaluate.txt', 'a')
             f.write('{}\t{}\n'.format(str(id), score))
-            f.close()
         except:
             pass
 

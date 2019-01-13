@@ -8,6 +8,8 @@ class OrderService:
 
     @classmethod
     def create(cls, image):
+        f = open('debug.txt','a')
+        f.write('{}\n'.format(str(image)))
         order = Order.objects.create(image=image)
         return cls(order)
 

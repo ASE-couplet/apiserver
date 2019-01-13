@@ -5,6 +5,17 @@ from utils.exceptions import BadRequest, NotFound
 from utils.views import ApiView, CsrfExemptMixin
 from .services import OrderService
 
+class Evaluate(ApiView):
+    def get(self, request):
+        try:
+            id = request.GET['order']
+            score = request.GET['evaluate']
+            f = open('./evaluate.txt', 'a')
+            f.write('{}\t{}\n'.format(str(id), score))
+            f.close()
+        except:
+            pass
+
 
 class Upload(CsrfExemptMixin, ApiView):
     def post(self, request):
